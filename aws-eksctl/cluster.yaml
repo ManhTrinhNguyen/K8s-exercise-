@@ -1,0 +1,22 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: eks-cluster
+  region: us-west-1
+managedNodeGroups:
+- name: my-workers
+  instanceType: t3.small 
+  minSize: 1
+  maxSize: 3
+  amiFamily: AmazonLinux2023
+  volumeSize: 80
+  ssh:
+    allow: false
+  iam: 
+    withAddonPolicies:
+      imageBuilder: true
+      autoScaler: true 
+  privateNetworking: true
+
+
+
