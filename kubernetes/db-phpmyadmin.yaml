@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-myadmin 
+  labels:
+    app: php-myadmin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: php-myadmin
+  template:
+    metadata:
+      labels:
+        app: php-myadmin
+    spec:
+      containers:
+      - name: php-myadmin
+        image: phpmyadmin
+        ports:
+        - containerPort: 8081
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-root-password
+        - name: MYSQL_USER
+          value: tim
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              value: mysql-password
+        - name: PMA_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: java-configmap
+              key: mysql
