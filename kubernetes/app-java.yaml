@@ -3,10 +3,10 @@ kind: Deployment
 metadata:
   name: java-app 
   labels:
-    app: java-app 
-  namespace: fargate
+    app: java-app
+  namespace: default
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: java-app 
@@ -15,28 +15,26 @@ spec:
       labels:
         app: java-app 
     spec:
+      imagePullSecrets:
+      - name: docker-credential
       containers:
       - name: java-app 
-        image: java-app 
-        imagePullSecrets:
-        - name: docker-credential
+        image: nguyenmanhtrinh/demo-app:java-app
         ports:
         - containerPort: 8080
         env:
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-secret
-              key: mysql-root-password
-        - name: MYSQL_USER
+        - name: DB_NAME
+          value: my_database
+        - name: DB_USER
           value: tim
-        - name: MYSQL_PASSWORD
+        - name: DB_PWD
           valueFrom:
             secretKeyRef:
               name: mysql-secret
-              value: mysql-password
-        - name: PMA_HOST
+              key: mysql-password
+        - name: DB_SERVER
           valueFrom:
             configMapKeyRef:
               name: java-configmap
               key: mysql
+

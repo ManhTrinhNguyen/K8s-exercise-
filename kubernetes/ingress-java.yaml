@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: java-ingress 
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: a0085fac413064a8db3d5f3871032d84-1455234291.us-west-1.elb.amazonaws.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: java-app-svc 
+            port:
+              number: 8080

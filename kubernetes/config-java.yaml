@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: java-configmap 
 data:
-  mysql: "<podname>.<headless svc>.default.svc.cluster.local"
+  mysql: "mysql-primary-0.mysql-primary-headless"
