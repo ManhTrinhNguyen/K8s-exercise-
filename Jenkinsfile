@@ -7,7 +7,8 @@ pipeline { // Defines the entire pipeline
       stage('Increment Version') {
         steps {
           script {
-            echo "Increment version"
+            echo "Increment patch version"
+            sh "gradle patchVersionUpdate"
           }
         }
       }
