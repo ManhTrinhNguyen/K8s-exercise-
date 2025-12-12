@@ -12,7 +12,10 @@ pipeline { // Defines the entire pipeline
             def versionProps = readProperties file : 'version.properties'
             echo "${versionProps}"
             def major = versionProps['major']
-            echo "${major}"
+            def minor = versionProps['minor']
+            def patch = versionProps['patch']
+            env.APP_VERSION = "${major}.${minor}.${patch}"
+            echo "${APP_VERSION}"
           }
         }
       }
