@@ -9,8 +9,8 @@ pipeline { // Defines the entire pipeline
           script {
             echo "Increment patch version"
             sh "gradle patchVersionUpdate"
-            def major = readProperties file : 'version.properties.major'
-            echo "${major}"
+            def versionProps = readProperties file : 'version.properties'
+            echo "${versionProps}"
           }
         }
       }
