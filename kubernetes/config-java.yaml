@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: ConfigMap 
 metadata:
-  name: java-configmap 
+  name: java-configmap
+  namespace: my-app
 data:
-  mysql: "mysql-primary-0.mysql-primary-headless"
+  mysql: "mysql-primary.default"

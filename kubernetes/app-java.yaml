@@ -4,22 +4,23 @@ metadata:
   name: java-app 
   labels:
     app: java-app
-  namespace: default
+  namespace: my-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: java-app 
+      app: java-app
   template:
     metadata:
       labels:
-        app: java-app 
+        app: java-app
     spec:
       imagePullSecrets:
       - name: docker-credential
       containers:
       - name: java-app 
         image: nguyenmanhtrinh/demo-app:java-app
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         env:
@@ -37,4 +38,18 @@ spec:
             configMapKeyRef:
               name: java-configmap
               key: mysql
-
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: java-app
+  name: java-app-svc
+  namespace: my-app
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: java-app
