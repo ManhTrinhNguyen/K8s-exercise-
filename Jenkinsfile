@@ -26,7 +26,6 @@ pipeline { // Defines the entire pipeline
             steps { 
                 script {
                   echo "Build App"
-                  sh "gradle clean bootJar"
                   sh "gradle clean build"
                 }
             }
