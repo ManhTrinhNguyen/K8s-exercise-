@@ -5,7 +5,7 @@ pipeline { // Defines the entire pipeline
     }
     environment {
       ECR_REPO = '660753258283.dkr.ecr.us-west-1.amazonaws.com'
-      APP_NAME = 'java-gradle'
+      APP_NAME = 'java-app'
     }
     stages { 
       stage('Increment Version') {
@@ -50,7 +50,9 @@ pipeline { // Defines the entire pipeline
                 echo 'Deploying application...'
                 script {
                   dir("kubernetes") {
-                    sh "kubectl get pod"
+                    sh """
+                      envsubst < app-java.yaml | kubectl apply -f -
+                    """
                   }
                 }
             }

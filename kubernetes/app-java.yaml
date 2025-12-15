@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: java-app 
+  name: $APP_NAME
   labels:
-    app: java-app
+    app: $APP_NAME
   namespace: my-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: java-app
+      app: $APP_NAME
   template:
     metadata:
       labels:
-        app: java-app
+        app: $APP_NAME
     spec:
       imagePullSecrets:
       - name: docker-credential
       containers:
-      - name: java-app 
-        image: nguyenmanhtrinh/demo-app:java-app
+      - name: $APP_NAME
+        image: ${ECR_REPO}/${APP_NAME}:${APP_VERSION}
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -43,7 +43,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: java-app
+    app: $APP_NAME
   name: java-app-svc
   namespace: my-app
 spec:
@@ -52,4 +52,4 @@ spec:
     protocol: TCP
     targetPort: 8080
   selector:
-    app: java-app
+    app: $APP_NAME
