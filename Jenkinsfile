@@ -3,6 +3,9 @@ pipeline { // Defines the entire pipeline
     tools {
       gradle 'gradle'
     }
+    environment {
+      ECR_REPO = 'java-gradle:latest 660753258283.dkr.ecr.us-west-1.amazonaws.com'
+    }
     stages { 
       stage('Increment Version') {
         steps {
@@ -16,17 +19,26 @@ pipeline { // Defines the entire pipeline
             def patch = versionProps['patch']
             env.APP_VERSION = "${major}.${minor}.${patch}"
             echo "${APP_VERSION}"
+            }
           }
         }
-      }
-        stage('Build') { 
+        stage('Build App') { 
             steps { 
-                echo 'Starting build process...'
+                script {
+                  echp "Build App"
+                  sh "gradle clean build"
+                }
             }
         }
-        stage('Test') {
+        stage('Container App') {
             steps {
-                echo 'Running test cases...'
+                script {
+                  echo "Container Gradle App then Push it into AWS ECR"
+                  withCredentials([usernamePassword(credentialsId: 'ecr_credential', usernameVariable: 'USER', passwordVariable: 'PWD')]){
+                    sh "docker build -t ${ECR_REPO}/java-gradle:${APP_VERSION}"
+                    sh "${PWD} | docker login --username ${USER} --password-stdin ${ECR_REPO}"
+                  }
+                }
             }
         }
         stage('Deploy') {
