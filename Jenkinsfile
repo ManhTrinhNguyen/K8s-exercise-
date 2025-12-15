@@ -5,6 +5,7 @@ pipeline { // Defines the entire pipeline
     }
     environment {
       ECR_REPO = '660753258283.dkr.ecr.us-west-1.amazonaws.com'
+      APP_NAME = 'java-gradle'
     }
     stages { 
       stage('Increment Version') {
@@ -36,8 +37,9 @@ pipeline { // Defines the entire pipeline
                   echo "Container Gradle App then Push it into AWS ECR"
                   withCredentials([usernamePassword(credentialsId: 'ecr_credential', usernameVariable: 'USER', passwordVariable: 'PWD')]){
                     sh """
-                      docker build -t ${ECR_REPO}/java-gradle:${APP_VERSION} .
+                      docker build -t ${ECR_REPO}/${APP_NAME}:${APP_VERSION} .
                       echo "${PWD}" | docker login --username "${USER}" --password-stdin "${ECR_REPO}"
+                      docker push ${ECR_REPO}/${APP_NAME}:${APP_VERSION}
                     """
                   }
                 }
