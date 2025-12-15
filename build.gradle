@@ -8,12 +8,8 @@ group 'com.example'
 
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(21)
+    languageVersion = JavaLanguageVersion.of(17)
   }
-}
-
-tasks.withType(JavaCompile).configureEach {
-  options.release = 17
 }
 
 repositories {
