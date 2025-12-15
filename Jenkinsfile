@@ -4,7 +4,7 @@ pipeline { // Defines the entire pipeline
       gradle 'gradle'
     }
     environment {
-      ECR_REPO = 'java-gradle:latest 660753258283.dkr.ecr.us-west-1.amazonaws.com'
+      ECR_REPO = '660753258283.dkr.ecr.us-west-1.amazonaws.com'
     }
     stages { 
       stage('Increment Version') {
