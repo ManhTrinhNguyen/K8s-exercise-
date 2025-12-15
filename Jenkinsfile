@@ -37,7 +37,7 @@ pipeline { // Defines the entire pipeline
                   withCredentials([usernamePassword(credentialsId: 'ecr_credential', usernameVariable: 'USER', passwordVariable: 'PWD')]){
                     sh """
                       docker build -t ${ECR_REPO}/java-gradle:${APP_VERSION} .
-                      echo "${PWD} | docker login --username "${USER}" --password-stdin "${ECR_REPO}"
+                      echo "${PWD}" | docker login --username "${USER}" --password-stdin "${ECR_REPO}"
                     """
                   }
                 }
