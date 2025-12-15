@@ -45,9 +45,12 @@ pipeline { // Defines the entire pipeline
                 }
             }
         }
-        stage('Deploy') {
+        stage('Deploy to K8s') {
             steps {
                 echo 'Deploying application...'
+                script {
+                  sh "kubectl get pod"
+                }
             }
         }
     }
