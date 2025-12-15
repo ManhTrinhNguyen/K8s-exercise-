@@ -49,7 +49,9 @@ pipeline { // Defines the entire pipeline
             steps {
                 echo 'Deploying application...'
                 script {
-                  sh "kubectl get pod"
+                  dir("kubernetes") {
+                    sh "kubectl get pod"
+                  }
                 }
             }
         }
