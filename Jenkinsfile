@@ -35,8 +35,10 @@ pipeline { // Defines the entire pipeline
                 script {
                   echo "Container Gradle App then Push it into AWS ECR"
                   withCredentials([usernamePassword(credentialsId: 'ecr_credential', usernameVariable: 'USER', passwordVariable: 'PWD')]){
-                    sh "docker build -t ${ECR_REPO}/java-gradle:${APP_VERSION} ."
-                    echo "${PWD}" | sh "docker login --username ${USER} --password-stdin ${ECR_REPO}"
+                    sh """
+                      docker build -t ${ECR_REPO}/java-gradle:${APP_VERSION} .
+                      echo "${PWD} | docker login --username "${USER}" --password-stdin "${ECR_REPO}"
+                    """
                   }
                 }
             }
