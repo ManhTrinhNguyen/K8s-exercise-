@@ -25,7 +25,7 @@ pipeline { // Defines the entire pipeline
         stage('Build App') { 
             steps { 
                 script {
-                  echp "Build App"
+                  echo "Build App"
                   sh "gradle clean build"
                 }
             }
